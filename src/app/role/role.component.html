@@ -1,0 +1,155 @@
+<p-toast></p-toast>
+
+<div class="card">
+    <p-toolbar styleClass="p-mb-4">
+        <ng-template pTemplate="left">
+            <button
+             pButton
+              pRipple 
+              label="Thêm quyền"
+               icon="pi pi-plus" 
+               class="p-button-success p-mr-2" 
+               (click)="openNew()"></button>
+
+            <!-- <button 
+            pButton 
+            pRipple
+             [label]="Delete"
+              icon="pi pi-trash"
+               class="p-button-danger"
+                (click)="deleteSelectedProducts()" 
+                [disabled]="!selectedProducts || !selectedProducts.length"></button> -->
+        </ng-template>
+
+        <ng-template pTemplate="right">
+
+            <span class="p-input-icon-left">
+                <i class="pi pi search"></i>
+                <input
+                pInputText
+                 type="text"
+                  (input) ="dt.filterGlobal($any($event.target).value , 'contains')"
+                  placeholder="Tìm..."
+                />
+            </span>
+            <!-- <p-fileUpload 
+            mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="p-mr-2 p-d-inline-block"></p-fileUpload>
+            <button 
+            pButton pRipple label="Export" icon="pi pi-upload"
+             class="p-button-help"></button> -->
+        </ng-template>
+    </p-toolbar>
+
+    <p-table
+     #dt 
+     [value]="roles"
+      [rows]="10" 
+      [paginator]="true" 
+      [globalFilterFields]="['name','description']"
+        [rowHover]="true"
+         dataKey="id"
+    >
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
+                <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="price">Description <p-sortIcon field="price"></p-sortIcon></th>
+                <th pSortableColumn="category">Deleted <p-sortIcon field="category"></p-sortIcon></th>
+                <!-- <th pSortableColumn="rating">Reviews <p-sortIcon field="rating"></p-sortIcon></th>
+                <th pSortableColumn="inventoryStatus">Status <p-sortIcon field="inventoryStatus"></p-sortIcon></th> -->
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-role>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="role"></p-tableCheckbox>
+                </td>
+                <td>{{role.Id}}</td>
+                <td>{{role.name}}</td>
+                <td>{{role.description}}</td>
+                <td>{{role.deleted}}</td>
+                <!-- <td><p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating></td>
+                <td><span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span></td>
+                <td> -->
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="editRole(role)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteRole(role)"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <!-- <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                In total there are {{roles ? roles.length : 0 }} roles.
+            </div>
+        </ng-template> -->
+    </p-table>
+</div>
+
+<p-dialog [(visible)]="roleDialog"
+ [style]="{width: '450px'}"
+  header="Role Details" 
+  [modal]="true"
+   styleClass="p-fluid">
+
+    <ng-template pTemplate="content">
+        <div class="p-field">
+            <label for="name">Name</label>
+            <input 
+            type="text" 
+            pInputText
+             id="name" 
+             [(ngModel)]="role.name" 
+             required 
+             autofocus
+             />
+            <small 
+            class="p-invalid"
+             *ngIf="submitted && !role.name">
+             Name is required.
+            </small>
+        </div>
+        <div class="p-field">
+            <label for="description">Description</label>
+            <textarea id="description"
+             pInputTextarea [(ngModel)]="role.description" 
+            required rows="3" cols="20"></textarea>
+        </div>
+
+        <div class="p-field">
+            <div class="p-formgrid p-grid">
+                <div class="p-field-radiobutton p-col-6">
+                    <p-radioButton 
+                    id="category1"
+                     name="category"
+                      value="Accessories"
+                       [(ngModel)]="role.deleted">
+                    </p-radioButton>
+                    <label for="category1">Deleted</label>
+                </div>
+               
+            </div>
+        </div>
+
+      
+    </ng-template>
+    
+    <ng-template pTemplate="footer">
+        <button
+         pButton pRipple label="Cancel"
+         icon="pi pi-times" 
+         class="p-button-text" 
+         (click)="hideDialog()"></button>
+        <button 
+        pButton 
+        pRipple 
+        label="Save" 
+        icon="pi pi-check"
+         class="p-button-text"
+          (click)="saveRole()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
