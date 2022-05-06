@@ -38,7 +38,6 @@ import {ToolbarModule} from 'primeng/toolbar';
 import {RatingModule} from 'primeng/rating';
 import { ConfirmationService } from 'primeng/api';
 import { MessageService } from 'primeng/api';
-import { QuillModule } from 'ngx-quill';
 
 
 
@@ -80,18 +79,11 @@ import { QuillModule } from 'ngx-quill';
     ProgressBarModule,
     FileUploadModule,
     ToolbarModule,
-    RatingModule,
-    ConfirmationService,
-    MessageService,QuillModule
-    
-    
-   
-    
-
-
+    RatingModule
 
   ],
-  providers: [],
+  providers: [ ConfirmationService,
+    MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
